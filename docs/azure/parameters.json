@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_kafka_cluster_name": {
+            "value": null
+        },
+        "disks_kafka_cluster_OsDisk_1_9d69df9a1eb446e9a493df584b475d70_externalid": {
+            "value": null
+        },
+        "networkInterfaces_kafka_cluster48_externalid": {
+            "value": null
+        }
+    }
+}

@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_kafka_cluster_name": {
+            "defaultValue": "kafka-cluster",
+            "type": "String"
+        },
+        "disks_kafka_cluster_OsDisk_1_9d69df9a1eb446e9a493df584b475d70_externalid": {
+            "defaultValue": "/subscriptions/a7e73669-82c1-4e9a-9ee4-45049d55ba5b/resourceGroups/KAFKA-STREAMS-TEST/providers/Microsoft.Compute/disks/kafka-cluster_OsDisk_1_9d69df9a1eb446e9a493df584b475d70",
+            "type": "String"
+        },
+        "networkInterfaces_kafka_cluster48_externalid": {
+            "defaultValue": "/subscriptions/a7e73669-82c1-4e9a-9ee4-45049d55ba5b/resourceGroups/kafka-streams-test/providers/Microsoft.Network/networkInterfaces/kafka-cluster48",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-10-01",
+            "name": "[parameters('virtualMachines_kafka_cluster_name')]",
+            "location": "westeurope",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2ms"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "credativ",
+                        "offer": "Debian",
+                        "sku": "9-backports",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_kafka_cluster_name'), '_OsDisk_1_9d69df9a1eb446e9a493df584b475d70')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS",
+                            "id": "[parameters('disks_kafka_cluster_OsDisk_1_9d69df9a1eb446e9a493df584b475d70_externalid')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_kafka_cluster_name')]",
+                    "adminUsername": "XXXX",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_kafka_cluster48_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "https://kafkastreamstestdiag.blob.core.windows.net/"
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  kafka-stream-ingestor:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: abelzamora/kafka-stream-ingestor:1.0.0-SNAPSHOT
